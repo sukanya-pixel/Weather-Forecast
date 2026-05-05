@@ -80,8 +80,8 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
 
-loc_icon = get_base64_image(r"D:\Pinnacle\Weather\location.png")
-search_icon = get_base64_image(r"D:\Pinnacle\Weather\search.png")
+loc_icon = get_base64_image(r"Data\location.png")
+search_icon = get_base64_image(r"Data\search.png")
 
 def get_weather(city):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
