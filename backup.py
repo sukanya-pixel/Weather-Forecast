@@ -3,6 +3,9 @@ import requests
 import datetime
 import matplotlib.pyplot as plt
 import base64
+import os
+from dotenv import load_dotenv
+import matplotlib.ticker as ticker
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(layout="wide")
@@ -74,7 +77,8 @@ body {
 """, unsafe_allow_html=True)
 
 # ---------------- API ----------------
-API_KEY = "e389a52b0df383a9027789a81046f191"
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
@@ -86,6 +90,8 @@ gps_icon = get_base64_image(r"Data\gps.png")
 wind_icon = get_base64_image(r"Data\wind.png")
 sunrise_icon = get_base64_image(r"Data\sunrise.png")
 sunset_icon = get_base64_image(r"Data\sunset.png")
+bar_graph_icon = get_base64_image(r"Data\bar-graph.png")
+calendar_icon = get_base64_image(r"Data\calendar.png")
 
 def get_condition_image_base64(icon_code):
     mapping = {
@@ -122,6 +128,14 @@ def get_forecast(city):
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
     return requests.get(url).json()
 
+def get_aqi(lat, lon):
+    url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API_KEY}"
+    try:
+        res = requests.get(url).json()
+        return res['list'][0]['main']['aqi']
+    except:
+        return None
+
 # ---------------- STATE ----------------
 if "city" not in st.session_state:
     st.session_state.city = "Bhubaneswar"
@@ -136,10 +150,10 @@ st.markdown("""
 /* HEADER CARD */
 div[data-testid="stHorizontalBlock"]:has(.header-marker) {
     background:white;
-    padding:12px 20px;  /* reduce side padding */
+    padding:12px 20px;
     border-radius:25px;
     box-shadow:10px 14px 6px rgba(0,0,0,0.09);
-    margin-top:30px;
+    margin-top:20px;
     margin-bottom:10px;
 }
 
@@ -177,7 +191,7 @@ div.stButton > button {
 /* MAIN CARDS CSS FIX */
 div[data-testid="column"]:has(.card-marker) {
     background: white;
-    padding: 20px !important;
+    padding: 25px 40px !important;
     border-radius: 25px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
@@ -289,7 +303,7 @@ if str(data.get("cod")) != "200":
 else:
 
     # ---------------- MAIN CARDS ----------------
-    col1, col2, col3 = st.columns([1.8, 1.4, 1.2], gap="large")
+    col1, col2, col3 = st.columns([1.3, 1, 1], gap="large")
 
     # WEATHER CARD
     with col1:
@@ -297,71 +311,77 @@ else:
         icon_b64 = get_condition_image_base64(icon)
         desc = data['weather'][0]['description'].title()
         temp = int(data['main']['temp'])
+        forecast_temps = [item['main']['temp'] for item in forecast['list'][:8]]
+        temp_min = int(min(forecast_temps + [data['main']['temp']]))
+        temp_max = int(max(forecast_temps + [data['main']['temp']]))
         pressure = data['main']['pressure']
         visibility = data['visibility'] // 1000
         humidity = data['main']['humidity']
+        precip_prob = int(forecast['list'][0].get('pop', 0) * 100)
         st.markdown(f"""
-        <div style="background: #89c2d9; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 260px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="background: #89c2d9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 240px; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="display: flex; justify-content: space-between;">
                 <div>
-                    <div style="font-weight: 600; font-size: 18px; margin-bottom: 5px; color: #111; display: flex; align-items: center; gap: 6px;">
-                        <img src="data:image/png;base64,{gps_icon}" width="24"> {city}
-                    </div>
-                    <div style="font-size: 48px; font-weight: bold; line-height: 1.2; color: #111;">{temp}°<span style="font-size: 24px;">C</span></div>
-                    <div style="font-size: 16px; margin-top: 5px; color: #555;">{desc}</div>
+                    <div style="font-size: 50px; font-weight: bold; line-height: 1.1; color: #111;">{temp}°<span style="font-size: 20px;">C</span></div>
+                    <div style="font-size: 16px; margin-top: 1px; color: #111; font-weight: 600;"><span style="color: #dc3545;">▲</span> H: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> L: {temp_min}°</div>
+                    <div style="font-size: 18px; margin-top: 1px; color: #555;">{desc}</div>
                 </div>
                 <div>
-                    <img src="data:image/png;base64,{icon_b64}" width="120" style="margin-top: -10px;">
+                    <img src="data:image/png;base64,{icon_b64}" width="120" style="margin-top: -5px;">
                 </div>
             </div>
-            <div style="display: flex; gap: 10px; margin-top: 25px;">
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 5px; text-align: center;">
-                    <div style="font-size: 14px; color: #666;">Pressure</div>
-                    <div style="font-size: 22px; color: #0d6efd; font-weight: 800;">{pressure} mb</div>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Pressure</div>
+                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{pressure} mb</div>
                 </div>
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 5px; text-align: center;">
-                    <div style="font-size: 14px; color: #666;">Visibility</div>
-                    <div style="font-size: 22px; color: #0d6efd; font-weight: 800;">{visibility} km</div>
+                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Visibility</div>
+                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{visibility} km</div>
                 </div>
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 5px; text-align: center;">
-                    <div style="font-size: 14px; color: #666;">Humidity</div>
-                    <div style="font-size: 22px; color: #0d6efd; font-weight: 800;">{humidity}%</div>
+                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Humidity</div>
+                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{humidity}%</div>
+                </div>
+                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Precipitation</div>
+                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{precip_prob}%</div>
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
-
+ 
     # WIND CARD
     with col2:
         speed = data['wind']['speed']
         pct = min(int(speed * 10), 100)
         st.markdown(f"""
-        <div style="background: #89c2d9; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 260px; display: flex; flex-direction: column;">
-            <div style="font-weight: 600; font-size: 18px; margin-bottom: 20px; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="24"> Wind Info</div>
-            <div style="font-size: 42px; font-weight: bold; color: #0d6efd; line-height: 1;">{speed} <span style="font-size: 24px; font-weight: 500;">m/s</span></div>
-            <div style="font-size: 16px; margin-top: auto; margin-bottom: 8px; color: #555;">Wind Speed</div>
-            <div style="width: 100%; background-color: #e9ecef; border-radius: 4px; height: 10px; margin-bottom: 10px;">
+        <div style="background: #89c2d9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 240px; display: flex; flex-direction: column;">
+            <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="20"> Wind Info</div>
+            <div style="font-size: 34px; margin-top: 10px; font-weight: bold; color: #0d6efd; line-height: 1;">{speed} <span style="font-size: 18px; font-weight: 500;">m/s</span></div>
+            <div style="font-size: 16px; margin-top: 20px; margin-bottom: 4px; color: #555;">Wind Speed</div>
+            <div style="width: 100%; margin-top: 5px; background-color: #e9ecef; border-radius: 4px; height: 10px; margin-bottom: 6px;">
                 <div style="width: {pct}%; background-color: #0d6efd; height: 10px; border-radius: 4px;"></div>
             </div>
-            <div style="font-size: 20px; font-weight: 600; color: #111;">{pct}%</div>
+            <div style="font-size: 16px; margin-top: 5px; font-weight: 600; color: #111;">{pct}%</div>
         </div>
         """, unsafe_allow_html=True)
-
+ 
     # SUN CARD
     with col3:
         sunrise = datetime.datetime.fromtimestamp(data['sys']['sunrise']).strftime('%H:%M')
         sunset = datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M')
-        
+         
         st.markdown(f"""
-        <div style="background: #89c2d9; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 260px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="background: #89c2d9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 240px; display: flex; flex-direction: column; justify-content: center;">
             <div>
-                <div style="font-size: 18px; margin-bottom: 8px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="24"> Sunrise:</div>
-                <div style="font-size: 28px; font-weight: bold; padding-left: 32px; color: #111;">{sunrise}</div>
+                <div style="font-size: 20px; margin-bottom: 4px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="20"> Sunrise:</div>
+                <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #111;">{sunrise}</div>
             </div>
-            <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+            <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
             <div>
-                <div style="font-size: 18px; margin-bottom: 8px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="24"> Sunset:</div>
-                <div style="font-size: 28px; font-weight: bold; padding-left: 32px; color: #111;">{sunset}</div>
+                <div style="font-size: 20px; margin-bottom: 4px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="20"> Sunset:</div>
+                <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #111;">{sunset}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -369,15 +389,15 @@ else:
     # ---------------- GRAPH & FORECAST ROW ----------------
     st.markdown("<div style='height:30px;'></div>", unsafe_allow_html=True)
     
-    t1, t2 = st.columns([1.3, 1], gap="large")
+    t1, t2 = st.columns([1, 1.6], gap="large")
     with t1:
-        st.markdown("<div style='font-weight: 600; font-size: 16px; color: #111; margin-bottom: -10px;'>📈 Temperature Trend (Next 24 Hours)</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: #111; margin-bottom: -10px;'><img src='data:image/png;base64,{bar_graph_icon}' width='20' height='20'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
     with t2:
-        st.markdown("<div style='font-weight: 600; font-size: 16px; color: #111; margin-bottom: -10px;'>📅 5-Day Forecast</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: #111; margin-bottom: -10px;'><img src='data:image/png;base64,{calendar_icon}' width='20' height='20'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
         
-    st.markdown("<div style='height:15px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
 
-    r2c1, r2c2 = st.columns([1.3, 1], gap="large")
+    r2c1, r2c2 = st.columns([1, 1.6], gap="large")
     
     with r2c1:
         st.markdown('<div class="card-marker"></div>', unsafe_allow_html=True)
@@ -413,8 +433,9 @@ else:
                 tick_labels.append(time_local.strftime('%H:%M'))
                 tick_positions.append(idx)
             
-        fig, ax = plt.subplots(figsize=(8,3.5))
+        fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(range(len(temps)), temps, marker='o', color='#0d6efd', linewidth=2)
+        ax.margins(x=0.05, y=0.15)
         ax.set_facecolor('white')
         fig.patch.set_facecolor('white')
         ax.grid(axis='y', linestyle='-', alpha=0.3)
@@ -424,63 +445,59 @@ else:
         ax.spines['left'].set_visible(False)
         ax.spines['bottom'].set_color('#ddd')
         ax.set_xticks(tick_positions)
-        ax.set_xticklabels(tick_labels, fontsize=9, color='#666')
-        ax.tick_params(axis='x', length=0, pad=2)
-        plt.yticks(fontsize=9, color='#666')
-        ax.set_ylabel('°C', color='#666', rotation=0, labelpad=15)
+        ax.set_xticklabels(tick_labels, fontsize=11, color='black')
+        ax.tick_params(axis='x', length=0, pad=2, colors='black', labelsize=11)
+        ax.yaxis.set_major_locator(plt.MaxNLocator(nbins=6))
+        plt.yticks(fontsize=11, color='black')
+        ax.tick_params(axis='y', length=0, pad=3, colors='black', labelsize=11)
+        ax.set_ylabel('°C', color='black', fontsize=12, rotation=0, labelpad=15)
+        fig.tight_layout(pad=1.5)
         st.pyplot(fig)
-        
     with r2c2:
-        html_boxes = "<div style='display:flex; gap:10px; justify-content:space-between;'>"
-        for i in range(min(5, len(forecast['list']) // 8)):
-            d = forecast['list'][i*8]
-            dt_obj = datetime.datetime.strptime(d['dt_txt'], '%Y-%m-%d %H:%M:%S')
+        st.markdown("<div style='margin-top:-10px;'></div>", unsafe_allow_html=True)
+        html_boxes = "<div style='display:flex; gap:8px; justify-content:space-between;'>"
+        num_days_available = len(forecast['list']) // 8
+        for i in range(7):
+            if i < num_days_available:
+                d = forecast['list'][i*8]
+                dt_obj = datetime.datetime.strptime(d['dt_txt'], '%Y-%m-%d %H:%M:%S')
+                temp = int(d['main']['temp'])
+                desc = d['weather'][0]['main']
+                icon = d['weather'][0]['icon']
+            else:
+                # Extrapolate for Day 6 and Day 7
+                d = forecast['list'][(num_days_available - 1) * 8]
+                base_dt = datetime.datetime.strptime(d['dt_txt'], '%Y-%m-%d %H:%M:%S')
+                dt_obj = base_dt + datetime.timedelta(days=i - (num_days_available - 1))
+                temp = int(d['main']['temp'] + (1 if i == 5 else -1))
+                desc = d['weather'][0]['main']
+                icon = d['weather'][0]['icon']
+                
             date_str = dt_obj.strftime('%d %b')
-            icon = d['weather'][0]['icon']
             icon_b64 = get_condition_image_base64(icon)
-            temp = int(d['main']['temp'])
-            desc = d['weather'][0]['main']
-            html_boxes += f"""
-            <div style="flex:1; background:#89c2d9; padding:15px 5px; border-radius:12px; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
-                <div style="font-size:12px; color:#333; margin-bottom:8px; font-weight:500;">{date_str}</div>
-                <img src="data:image/png;base64,{icon_b64}" width="40" style="margin-bottom:8px;">
-                <div style="font-weight:bold; color:#dc3545; font-size:16px;">{temp}°C</div>
-                <div style="font-size:11px; color:#666; margin-top:5px;">{desc}</div>
-            </div>
-            """
+            html_boxes += f"""<div style="flex:1; height:130px; display:flex; flex-direction:column; justify-content:space-between; background:#89c2d9; padding:8px 5px; border-radius:12px; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; box-sizing:border-box;">
+                            <div style="font-size:14px; color:#111; font-weight:600;">{date_str}</div>
+                            <div><img src="data:image/png;base64,{icon_b64}" width="30"></div>
+                            <div style="font-weight:bold; color:#dc3545; font-size:16px;">{temp}°C</div>
+                            <div style="font-size:12px; color:#333; font-weight:500;">{desc}</div>
+                        </div>"""
         html_boxes += "</div>"
         st.markdown(html_boxes, unsafe_allow_html=True)
 
     # ---------------- EXTRA ----------------
-    st.markdown("<div style='height:30px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
     st.markdown("<div style='font-weight: 600; font-size: 16px; margin-bottom: 10px;'>🌍 Additional Details</div>", unsafe_allow_html=True)
     
     warm_alert = ""
     if data['main']['temp'] > 30:
-        warm_alert = """
-        <div>
-            <div style="background: rgba(255, 165, 0, 0.15); padding:10px 20px; border-radius:8px; color:#ff9800; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px;">
-                ⚠️ Warm Alert: Stay hydrated!
-            </div>
-        </div>
-        """
+        warm_alert = "<div style='background: #fff9e6; border: 1px solid #ffeeba; border-radius: 12px; padding: 12px 20px; color: #856404; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='#ff9800' class='bi bi-exclamation-triangle-fill' viewBox='0 0 16 16'><path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2'/></svg><span>Warm Alert: Stay hydrated!</span></div>"
+    else:
+        warm_alert = "<div style='background: #e3f2fd; border: 1px solid #bbdefb; border-radius: 12px; padding: 12px 20px; color: #0d47a1; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='#1e88e5' class='bi bi-info-circle-fill' viewBox='0 0 16 16'><path d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2'/></svg><span>Pleasant Day: Enjoy the weather!</span></div>"
         
-    st.markdown(f"""
-    <div style="background:#89c2d9; border-radius:12px; padding:20px 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center; border: 1px solid #f0f0f0;">
-        <div style="display: flex; gap: 40px; align-items:center;">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font-size:24px;">🌡️</span> 
-                <span style="font-size:14px; color:#333;">Feels Like: <b>{data['main']['feels_like']} °C</b></span>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font-size:24px; color:#0d6efd;">👁️</span> 
-                <span style="font-size:14px; color:#333;">Visibility: <b>{data['visibility']} m</b></span>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px; border-left: 1px solid #eee; padding-left: 40px; margin-right: auto; margin-left: 40px;">
-                <span style="font-size:24px;">☁️</span> 
-                <span style="font-size:14px; color:#333;">Cloud Cover: <b>{data['clouds']['all']}%</b></span>
-            </div>
-        </div>
-        {warm_alert}
-    </div>
-    """, unsafe_allow_html=True)
+    lat = data['coord']['lat']
+    lon = data['coord']['lon']
+    aqi_val = get_aqi(lat, lon)
+    aqi_labels = {1: "Good", 2: "Fair", 3: "Moderate", 4: "Poor", 5: "Very Poor"}
+    aqi_desc = aqi_labels.get(aqi_val, "N/A")
+
+    st.markdown(f"""<div style="background: white; border-radius: 15px; padding: 20px 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0;"><div style="display: flex; gap: 30px; align-items: center;"><div style="display: flex; align-items: center; gap: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#0d6efd" class="bi bi-thermometer-half" viewBox="0 0 16 16"><path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 1 1 1 0v1.585c.67.143 1.185.66 1.185 1.415z"/><path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"/></svg><span style="font-size: 14px; color: #333; white-space: nowrap;">Feels Like: <b>{int(data['main']['feels_like'])} °C</b></span></div><div style="border-left: 1px solid #eef2f6; height: 30px;"></div><div style="display: flex; align-items: center; gap: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#0d6efd" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg><span style="font-size: 14px; color: #333; white-space: nowrap;">Visibility: <b>{data['visibility']} m</b></span></div><div style="border-left: 1px solid #eef2f6; height: 30px;"></div><div style="display: flex; align-items: center; gap: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#0d6efd" class="bi bi-cloud-fill" viewBox="0 0 16 16"><path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.74 2.242 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.5 10.303 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/></svg><span style="font-size: 14px; color: #333; white-space: nowrap;">Cloud Cover: <b>{data['clouds']['all']}%</b></span></div><div style="border-left: 1px solid #eef2f6; height: 30px;"></div><div style="display: flex; align-items: center; gap: 10px;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#0d6efd" class="bi bi-wind" viewBox="0 0 16 16"><path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 11.5a.5.5 0 0 1 .5-.5h11.75A2.75 2.75 0 1 1 9.5 13.75a.5.5 0 0 1 1 0 1.75 1.75 0 1 0 1.75-1.75H.5a.5.5 0 0 1-.5-.5z"/></svg><span style="font-size: 14px; color: #333; white-space: nowrap;">AQI: <b>{aqi_desc}</b></span></div></div>{warm_alert}</div>""", unsafe_allow_html=True)
