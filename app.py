@@ -93,7 +93,6 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
 
-loc_icon = get_base64_image(r"Data\location.png")
 search_icon = get_base64_image(r"Data\search.png")
 gps_icon = get_base64_image(r"Data\gps.png")
 wind_icon = get_base64_image(r"Data\wind.png")
@@ -207,18 +206,22 @@ div[data-testid="stHorizontalBlock"]:has(.header-marker) {
     background: transparent !important;
     box-shadow: none !important;
     padding: 0 !important;
-    margin-top: 10px;
+    margin-top: 0px !important;
     margin-bottom: 10px;
     align-items: center !important;
     width: 100% !important;
 }
 
+/* APP TITLE CONTAINER CSS */
+div[data-testid="stElementContainer"]:has(.app-title) {
+    margin-bottom: -53px !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- APP TITLE ----------------
 st.markdown(f"""
-<div style="
+<div class="app-title" style="
     display: flex;
     align-items: center;
     justify-content: center;
