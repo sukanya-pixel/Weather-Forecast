@@ -349,7 +349,7 @@ with col2:
             right: 0 !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
-            width: 280px !important;
+            width: 480px !important;
             z-index: 100;
         }}
         /* Style the input box itself */
