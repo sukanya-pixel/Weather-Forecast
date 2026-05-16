@@ -351,6 +351,15 @@ with col2:
             transform: translateY(-50%) !important;
             width: 480px !important;
             z-index: 100;
+            margin: 0 !important;
+            padding: 0 !important;
+        }}
+        /* Ensure the inner Streamlit wrappers stretch fully and have no padding */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput,
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput > div {{
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }}
         /* Style the input box itself */
         div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput > div > div > input {{
@@ -361,6 +370,15 @@ with col2:
             background-color: white;
             color: #333;
             width: 100% !important;
+            min-height: 32px !important;
+            height: 32px !important;
+            margin: 0 !important;
+        }}
+        /* Hide labels to prevent extra layout padding */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child label {{
+            display: none !important;
+            margin: 0 !important;
+            height: 0 !important;
         }}
         </style>
         """, unsafe_allow_html=True)
