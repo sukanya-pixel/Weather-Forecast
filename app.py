@@ -229,7 +229,7 @@ div[data-testid="stHorizontalBlock"]:has(.header-marker) {
     box-shadow: none !important;
     padding: 0 !important;
     margin-top: 0px !important;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     align-items: center !important;
     width: 100% !important;
     position: relative !important;
@@ -237,7 +237,7 @@ div[data-testid="stHorizontalBlock"]:has(.header-marker) {
 
 /* APP TITLE CONTAINER CSS */
 div[data-testid="stElementContainer"]:has(.app-title) {
-    margin-bottom: -25px !important;
+    margin-bottom: -10px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -341,7 +341,30 @@ with col2:
             st.session_state.search = True
             st.rerun()
     else:
-        st.text_input("", placeholder="🔍 Search...", key="search_input", on_change=submit_search, label_visibility="collapsed")
+        st.markdown(f"""
+        <style>
+        /* Absolute position the active search input container to flush right */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div[data-testid="stElementContainer"]:has(input) {{
+            position: absolute !important;
+            right: 0 !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 280px !important;
+            z-index: 100;
+        }}
+        /* Style the input box itself */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput > div > div > input {{
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding-left: 15px;
+            padding-right: 15px;
+            background-color: white;
+            color: #333;
+            width: 100% !important;
+        }}
+        </style>
+        """, unsafe_allow_html=True)
+        st.text_input("", placeholder="Search here...", key="search_input", on_change=submit_search, label_visibility="collapsed")
 
 
 city = st.session_state.city
