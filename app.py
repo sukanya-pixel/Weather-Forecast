@@ -232,6 +232,7 @@ div[data-testid="stHorizontalBlock"]:has(.header-marker) {
     margin-bottom: 5px;
     align-items: center !important;
     width: 100% !important;
+    position: relative !important;
 }
 
 /* APP TITLE CONTAINER CSS */
@@ -307,7 +308,6 @@ with col2:
         }}
         
         button[kind="secondary"] {{
-            margin-left: auto;
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
@@ -315,8 +315,10 @@ with col2:
             height: 32px !important;
             min-width: 0 !important;
             padding: 0 !important;
-            position: relative !important;
-            margin-top: 0px !important;
+            position: absolute !important;
+            right: 0 !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
         }}
         button[kind="secondary"]::after {{
             content: "";
