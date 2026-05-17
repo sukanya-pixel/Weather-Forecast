@@ -123,6 +123,7 @@ sunset_icon = get_base64_image(r"Data\sunset.png")
 bar_graph_icon = get_base64_image(r"Data\bar-graph.png")
 calendar_icon = get_base64_image(r"Data\calendar.png")
 clouds_icon = get_base64_image(r"Data\clouds.png")
+earth_icon = get_base64_image(r"Data\earth.png")
 
 def get_condition_image_base64(icon_code):
     mapping = {
@@ -293,7 +294,7 @@ with col1:
         line-height:1;
         white-space: nowrap;
     ">
-        <img src="data:image/png;base64,{gps_icon}" width="26" style="margin:0; padding:0; display:block;">
+        <img src="data:image/png;base64,{gps_icon}" width="35" style="margin:0; padding:0; display:block;">
         <span style="margin:0; padding:0; line-height:1; display:flex; align-items:center; height:26px;">{st.session_state.city.title()}</span>
     </div>
     """, unsafe_allow_html=True)
@@ -420,11 +421,11 @@ else:
         humidity = data['main']['humidity']
         precip_prob = int(forecast['list'][0].get('pop', 0) * 100)
         st.markdown(f"""
-        <div style="background: #61A5C2; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="display: flex; justify-content: space-between;">
                 <div>
                     <div style="font-size: 50px; font-weight: bold; line-height: 1.1; color: #012A4A;">{temp}°<span style="font-size: 20px;">C</span></div>
-                    <div style="font-size: 16px; margin-top: 1px; color: #012A4A; font-weight: 600;"><span style="color: #dc3545;">▲</span> H: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> L: {temp_min}°</div>
+                    <div style="font-size: 16px; margin-top: 1px; color: #012A4A; font-weight: 600;"><span style="color: #0d6efd;">▲</span> High: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> Low: {temp_min}°</div>
                     <div style="font-size: 18px; margin-top: 1px; color: #014F86;">{desc}</div>
                 </div>
                 <div>
@@ -432,20 +433,20 @@ else:
                 </div>
             </div>
             <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Pressure</div>
+                <div style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Pressure</div>
                     <div style="font-size: 15px; color: white; font-weight: 800;">{pressure} mb</div>
                 </div>
-                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Visibility</div>
+                <div style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Visibility</div>
                     <div style="font-size: 15px; color: white; font-weight: 800;">{visibility} km</div>
                 </div>
-                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Humidity</div>
+                <div style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Humidity</div>
                     <div style="font-size: 15px; color: white; font-weight: 800;">{humidity}%</div>
                 </div>
-                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Precipitation</div>
+                <div style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Precipitation</div>
                     <div style="font-size: 15px; color: white; font-weight: 800;">{precip_prob}%</div>
                 </div>
             </div>
@@ -458,11 +459,11 @@ else:
         pct = min(int(speed * 10), 100)
         st.markdown(f"""
         <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column;">
-            <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #012A4A; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="20"> Wind Info</div>
-            <div style="font-size: 34px; margin-top: 10px; font-weight: bold; color: #0d6efd; line-height: 1;">{speed} <span style="font-size: 18px; font-weight: 500;">m/s</span></div>
-            <div style="font-size: 16px; margin-top: 20px; margin-bottom: 4px; color: #555;">Wind Speed</div>
+            <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="30"> Wind Info</div>
+            <div style="font-size: 34px; margin-top: 10px; font-weight: bold; color: #012A4A; line-height: 1;">{speed} <span style="font-size: 18px; font-weight: 500;">m/s</span></div>
+            <div style="font-size: 16px; margin-top: 20px; margin-bottom: 4px; color: #014F86;">Wind Speed</div>
             <div style="width: 100%; margin-top: 5px; background-color: #e9ecef; border-radius: 4px; height: 10px; margin-bottom: 6px;">
-                <div style="width: {pct}%; background-color: #0d6efd; height: 10px; border-radius: 4px;"></div>
+                <div style="width: {pct}%; background-color: #01497C; height: 10px; border-radius: 4px;"></div>
             </div>
             <div style="font-size: 16px; margin-top: 5px; font-weight: 600; color: #012A4A;">{pct}%</div>
         </div>
@@ -476,12 +477,12 @@ else:
         st.markdown(f"""
         <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: center;">
             <div>
-                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #012A4A; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="20"> Sunrise:</div>
+                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="30"> Sunrise:</div>
                 <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunrise}</div>
             </div>
             <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
             <div>
-                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #012A4A; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="20"> Sunset:</div>
+                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="30"> Sunset:</div>
                 <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunset}</div>
             </div>
         </div>
@@ -492,9 +493,9 @@ else:
     
     t1, t2 = st.columns([1, 1.6], gap="large")
     with t1:
-        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: #111; margin-bottom: -20px;'><img src='data:image/png;base64,{bar_graph_icon}' width='20' height='20'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: -20px;'><img src='data:image/png;base64,{bar_graph_icon}' width='30' height='30'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
     with t2:
-        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: #111; margin-bottom: -20px;'><img src='data:image/png;base64,{calendar_icon}' width='20' height='20'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: -20px;'><img src='data:image/png;base64,{calendar_icon}' width='30' height='30'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
         
     st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
 
@@ -587,7 +588,7 @@ else:
 
         # ---------------- EXTRA ----------------
         st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
-        st.markdown("<div style='font-weight: 600; font-size: 20px; margin-bottom: 10px;'>🌍 Additional Details</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: 10px;'><img src='data:image/png;base64,{earth_icon}' width='30' height='30'><span>Additional Details</span></div>", unsafe_allow_html=True)
         
         warm_alert = ""
         if data['main']['temp'] > 30:
