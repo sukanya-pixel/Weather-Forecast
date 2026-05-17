@@ -251,7 +251,7 @@ st.markdown(f"""
     justify-content: center;
     gap: 15px;
     margin-top: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 ">
     <img src="data:image/png;base64,{clouds_icon}" width="50" style="filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.15));">
     <div style="
@@ -421,7 +421,7 @@ else:
         humidity = data['main']['humidity']
         precip_prob = int(forecast['list'][0].get('pop', 0) * 100)
         st.markdown(f"""
-        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="display: flex; justify-content: space-between;">
                 <div>
                     <div style="font-size: 50px; font-weight: bold; line-height: 1.1; color: #012A4A;">{temp}°<span style="font-size: 20px;">C</span></div>
@@ -458,7 +458,7 @@ else:
         speed = data['wind']['speed']
         pct = min(int(speed * 10), 100)
         st.markdown(f"""
-        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column;">
+        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); height: 230px; display: flex; flex-direction: column;">
             <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="30"> Wind Info</div>
             <div style="font-size: 34px; margin-top: 10px; font-weight: bold; color: #012A4A; line-height: 1;">{speed} <span style="font-size: 18px; font-weight: 500;">m/s</span></div>
             <div style="font-size: 16px; margin-top: 20px; margin-bottom: 4px; color: #014F86;">Wind Speed</div>
@@ -475,7 +475,7 @@ else:
         sunset = datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M')
          
         st.markdown(f"""
-        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; height: 230px; display: flex; flex-direction: column; justify-content: center;">
             <div>
                 <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="30"> Sunrise:</div>
                 <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunrise}</div>
@@ -538,21 +538,21 @@ else:
         fig, ax = plt.subplots(figsize=(8,4.3))
         ax.plot(range(len(temps)), temps, marker='o', color='#0d6efd', linewidth=2)
         ax.margins(x=0.05, y=0.15)
-        ax.set_facecolor('white')
-        fig.patch.set_facecolor('white')
+        ax.set_facecolor('#89C2D9')
+        fig.patch.set_facecolor('#89C2D9')
         ax.grid(axis='y', linestyle='-', alpha=0.3)
         ax.grid(axis='x', linestyle='-', alpha=0.3)
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.spines['left'].set_visible(False)
-        ax.spines['bottom'].set_color('#ddd')
+        ax.spines['bottom'].set_color('#89C2D9')
         ax.set_xticks(tick_positions)
-        ax.set_xticklabels(tick_labels, fontsize=11, color='black')
-        ax.tick_params(axis='x', length=0, pad=2, colors='black', labelsize=11)
+        ax.set_xticklabels(tick_labels, fontsize=11, color='#012A4A')
+        ax.tick_params(axis='x', length=0, pad=2, colors='#012A4A', labelsize=11)
         ax.yaxis.set_major_locator(plt.MaxNLocator(nbins=6))
-        plt.yticks(fontsize=11, color='black')
-        ax.tick_params(axis='y', length=0, pad=3, colors='black', labelsize=11)
-        ax.set_ylabel('°C', color='black', fontsize=12, rotation=0, labelpad=15)
+        plt.yticks(fontsize=11, color='#012A4A')
+        ax.tick_params(axis='y', length=0, pad=3, colors='#012A4A', labelsize=11)
+        ax.set_ylabel('°C', color='#012A4A', fontsize=12, rotation=0, labelpad=15)
         fig.tight_layout(pad=1.5)
         st.pyplot(fig)
     with r2c2:
