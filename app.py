@@ -349,33 +349,33 @@ with col2:
             right: 0 !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
-            width: 480px !important;
+            width: 680px !important;
             z-index: 100;
             margin: 0 !important;
             padding: 0 !important;
         }}
         /* Ensure the inner Streamlit wrappers stretch fully and have no padding */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput,
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput > div {{
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput div {{
             width: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
         }}
         /* Style the input box itself */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput > div > div > input {{
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            padding-left: 15px;
-            padding-right: 15px;
-            background-color: white;
-            color: #333;
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div.stTextInput input {{
+            border-radius: 20px !important;
+            border: 1px solid #ccc !important;
+            padding: 0 15px !important;
+            background-color: white !important;
+            color: #333 !important;
             width: 100% !important;
             min-height: 32px !important;
             height: 32px !important;
             margin: 0 !important;
+            box-sizing: border-box !important;
         }}
-        /* Hide labels to prevent extra layout padding */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child label {{
+        /* Hide labels and instructions to prevent extra layout padding */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child label,
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child div[data-testid="InputInstructions"] {{
             display: none !important;
             margin: 0 !important;
             height: 0 !important;
