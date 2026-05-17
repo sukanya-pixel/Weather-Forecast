@@ -234,10 +234,10 @@ div[data-testid="stTextInput"] input::placeholder {
 }
 
 /* DYNAMIC CARD HOVER EFFECT */
-.dynamic-card {
+.dynamic-card, div[data-testid="column"]:has(.card-marker) {
     transition: transform 0.3s ease, box-shadow 0.3s ease !important;
 }
-.dynamic-card:hover {
+.dynamic-card:hover, div[data-testid="column"]:has(.card-marker):hover {
     transform: translateY(-5px) !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
 }
