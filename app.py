@@ -622,15 +622,25 @@ else:
             aqi_desc = "Good"
         elif aqi_val <= 100:
             aqi_desc = "Moderate"
-        elif aqi_val <= 150:
-            aqi_desc = "Unhealthy for Sensitive Groups"
-        elif aqi_val <= 200:
-            aqi_desc = "Unhealthy"
         elif aqi_val <= 300:
-            aqi_desc = "Very Unhealthy"
+            aqi_desc = "Unhealthy"
         else:
             aqi_desc = "Hazardous"
             
         aqi_display = f"{aqi_val} ({aqi_desc})" if aqi_val is not None else "N/A"
 
-        st.markdown(f"""<div style="background: #89C2D9; border-radius: 15px; padding: 10px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;"><div style="display: flex; gap: 20px; align-items: center;"><div style="display: flex; align-items: center; gap: 6px;"><img src="data:image/png;base64,{temperature_icon_new}" width="25" height="25"><span style="font-size: 16px; color: #333; white-space: nowrap;">Feels Like: <b>{int(data['main']['feels_like'])} °C</b></span></div><div style="border-left: 1px solid #eef2f6; height: 30px;"></div><div style="display: flex; align-items: center; gap: 6px;"><img src="data:image/png;base64,{cloud_icon_new}" width="25" height="25"><span style="font-size: 16px; color: #333; white-space: nowrap;">Cloud Cover: <b>{data['clouds']['all']}%</b></span></div><div style="border-left: 1px solid #eef2f6; height: 30px;"></div><div style="display: flex; align-items: center; gap: 6px;"><img src="data:image/png;base64,{wind_icon}" width="25" height="25"><span style="font-size: 16px; color: #333; white-space: nowrap;">AQI: <b>{aqi_display}</b></span></div></div>{warm_alert}</div>""", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="background: #89C2D9; border-radius: 15px; padding: 10px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; gap: 10px; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+        <img src="data:image/png;base64,{temperature_icon_new}" width="25" height="25">
+        <span style="font-size: 16px; color: #333; white-space: nowrap;">Feels Like: <b>{int(data['main']['feels_like'])} °C</b></span></div>
+        <div style="border-left: 1px solid #eef2f6; height: 30px;"></div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+        <img src="data:image/png;base64,{cloud_icon_new}" width="25" height="25">
+        <span style="font-size: 16px; color: #333; white-space: nowrap;">Cloud Cover: <b>{data['clouds']['all']}%</b></span></div>
+        <div style="border-left: 1px solid #eef2f6; height: 30px;">
+        </div><div style="display: flex; align-items: center; gap: 6px;">
+        <img src="data:image/png;base64,{wind_icon}" width="25" height="25">
+        <span style="font-size: 16px; color: #333; white-space: nowrap;">AQI: <b>{aqi_display}</b></span></div></div>{warm_alert}</div>
+        """, unsafe_allow_html=True)
