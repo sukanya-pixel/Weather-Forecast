@@ -256,7 +256,7 @@ st.markdown(f"""
     <div style="
         font-size:48px;
         font-weight:800;
-        color:#A9D6E5;
+        color:White;
         letter-spacing:1.5px;
         font-family:'Outfit', sans-serif;
     ">
@@ -346,55 +346,15 @@ with col2:
     else:
         st.markdown(f"""
         <style>
-        /* Position the entire vertical block inside col2 horizontally to hold both button and input */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child > div[data-testid="stVerticalBlock"] {{
+        /* Absolute position the active search input container to flush right */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) {{
             position: absolute !important;
             right: 0 !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
             width: 280px !important;
             z-index: 100;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            gap: 10px !important;
         }}
-        
-        /* Make sure the text input element container stretches to fill the rest of the space */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:has(input) {{
-            flex: 1 !important;
-            width: 100% !important;
-            position: static !important;
-            transform: none !important;
-        }}
-
-        /* Style the search toggle off button */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child button[kind="secondary"] {{
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            width: 24px !important;
-            height: 24px !important;
-            min-width: 0 !important;
-            padding: 0 !important;
-            position: relative !important;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child button[kind="secondary"]::after {{
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/png;base64,{search_icon}");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }}
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child button[kind="secondary"] p {{
-            display: none !important;
-        }}
-
         /* Ensure the inner Streamlit wrappers stretch fully and have no padding */
         div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) div {{
             width: 100% !important;
@@ -415,7 +375,7 @@ with col2:
         /* Style the input text */
         div[data-testid="stHorizontalBlock"]:has(.header-marker) input {{
             color: white !important;
-            padding: 0 5px !important;
+            padding: 0 15px !important;
             background: transparent !important;
             border: none !important;
             height: 32px !important;
@@ -430,11 +390,6 @@ with col2:
         }}
         </style>
         """, unsafe_allow_html=True)
-        
-        if st.button("", key="toggle_search_off"):
-            st.session_state.search = False
-            st.rerun()
-            
         st.text_input("", placeholder="Search here...", key="search_input", on_change=submit_search, label_visibility="collapsed")
 
 
@@ -465,33 +420,33 @@ else:
         humidity = data['main']['humidity']
         precip_prob = int(forecast['list'][0].get('pop', 0) * 100)
         st.markdown(f"""
-        <div style="background: #61a5c2; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="background: #61A5C2; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="display: flex; justify-content: space-between;">
                 <div>
-                    <div style="font-size: 50px; font-weight: bold; line-height: 1.1; color: #111;">{temp}°<span style="font-size: 20px;">C</span></div>
-                    <div style="font-size: 16px; margin-top: 1px; color: #111; font-weight: 600;"><span style="color: #dc3545;">▲</span> H: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> L: {temp_min}°</div>
-                    <div style="font-size: 18px; margin-top: 1px; color: #555;">{desc}</div>
+                    <div style="font-size: 50px; font-weight: bold; line-height: 1.1; color: #012A4A;">{temp}°<span style="font-size: 20px;">C</span></div>
+                    <div style="font-size: 16px; margin-top: 1px; color: #012A4A; font-weight: 600;"><span style="color: #dc3545;">▲</span> H: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> L: {temp_min}°</div>
+                    <div style="font-size: 18px; margin-top: 1px; color: #014F86;">{desc}</div>
                 </div>
                 <div>
                     <img src="data:image/png;base64,{icon_b64}" width="120" style="margin-top: -5px;">
                 </div>
             </div>
             <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Pressure</div>
-                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{pressure} mb</div>
+                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Pressure</div>
+                    <div style="font-size: 15px; color: white; font-weight: 800;">{pressure} mb</div>
                 </div>
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Visibility</div>
-                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{visibility} km</div>
+                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Visibility</div>
+                    <div style="font-size: 15px; color: white; font-weight: 800;">{visibility} km</div>
                 </div>
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Humidity</div>
-                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{humidity}%</div>
+                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Humidity</div>
+                    <div style="font-size: 15px; color: white; font-weight: 800;">{humidity}%</div>
                 </div>
-                <div style="flex: 1; border: 1px solid #eee; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 14px; color: #666; white-space: nowrap;">Precipitation</div>
-                    <div style="font-size: 15px; color: #0d6efd; font-weight: 800;">{precip_prob}%</div>
+                <div style="flex: 1; background: #2C7DA0; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 14px; color: #E0E0E0; white-space: nowrap;">Precipitation</div>
+                    <div style="font-size: 15px; color: white; font-weight: 800;">{precip_prob}%</div>
                 </div>
             </div>
         </div>
@@ -502,14 +457,14 @@ else:
         speed = data['wind']['speed']
         pct = min(int(speed * 10), 100)
         st.markdown(f"""
-        <div style="background: #61a5c2; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column;">
-            <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="20"> Wind Info</div>
+        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column;">
+            <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #012A4A; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="20"> Wind Info</div>
             <div style="font-size: 34px; margin-top: 10px; font-weight: bold; color: #0d6efd; line-height: 1;">{speed} <span style="font-size: 18px; font-weight: 500;">m/s</span></div>
             <div style="font-size: 16px; margin-top: 20px; margin-bottom: 4px; color: #555;">Wind Speed</div>
             <div style="width: 100%; margin-top: 5px; background-color: #e9ecef; border-radius: 4px; height: 10px; margin-bottom: 6px;">
                 <div style="width: {pct}%; background-color: #0d6efd; height: 10px; border-radius: 4px;"></div>
             </div>
-            <div style="font-size: 16px; margin-top: 5px; font-weight: 600; color: #111;">{pct}%</div>
+            <div style="font-size: 16px; margin-top: 5px; font-weight: 600; color: #012A4A;">{pct}%</div>
         </div>
         """, unsafe_allow_html=True)
  
@@ -519,15 +474,15 @@ else:
         sunset = datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M')
          
         st.markdown(f"""
-        <div style="background: #61A5C2; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: center;">
             <div>
-                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="20"> Sunrise:</div>
-                <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #111;">{sunrise}</div>
+                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #012A4A; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="20"> Sunrise:</div>
+                <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunrise}</div>
             </div>
             <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
             <div>
-                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="20"> Sunset:</div>
-                <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #111;">{sunset}</div>
+                <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #012A4A; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="20"> Sunset:</div>
+                <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunset}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
