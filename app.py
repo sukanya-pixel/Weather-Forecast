@@ -25,11 +25,11 @@ html, body {
     padding: 0 !important;
 }
 body {
-    background-color: #012a4a;
+    background-color: #013A63;
 }
 
 .stApp {
-    background-color: #012a4a;
+    background-color: #013A63;
     overflow: hidden !important;
     height: 100vh !important;
 }
@@ -256,7 +256,7 @@ st.markdown(f"""
     <div style="
         font-size:48px;
         font-weight:800;
-        color:white;
+        color:#A9D6E5;
         letter-spacing:1.5px;
         font-family:'Outfit', sans-serif;
     ">
@@ -346,15 +346,55 @@ with col2:
     else:
         st.markdown(f"""
         <style>
-        /* Absolute position the active search input container to flush right */
-        div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) {{
+        /* Position the entire vertical block inside col2 horizontally to hold both button and input */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child > div[data-testid="stVerticalBlock"] {{
             position: absolute !important;
             right: 0 !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
-            width: 480px !important;
+            width: 280px !important;
             z-index: 100;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 10px !important;
         }}
+        
+        /* Make sure the text input element container stretches to fill the rest of the space */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:has(input) {{
+            flex: 1 !important;
+            width: 100% !important;
+            position: static !important;
+            transform: none !important;
+        }}
+
+        /* Style the search toggle off button */
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child button[kind="secondary"] {{
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            width: 24px !important;
+            height: 24px !important;
+            min-width: 0 !important;
+            padding: 0 !important;
+            position: relative !important;
+        }}
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child button[kind="secondary"]::after {{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/png;base64,{search_icon}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }}
+        div[data-testid="stHorizontalBlock"]:has(.header-marker) > div[data-testid="column"]:last-child button[kind="secondary"] p {{
+            display: none !important;
+        }}
+
         /* Ensure the inner Streamlit wrappers stretch fully and have no padding */
         div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) div {{
             width: 100% !important;
@@ -375,7 +415,7 @@ with col2:
         /* Style the input text */
         div[data-testid="stHorizontalBlock"]:has(.header-marker) input {{
             color: white !important;
-            padding: 0 15px !important;
+            padding: 0 5px !important;
             background: transparent !important;
             border: none !important;
             height: 32px !important;
@@ -390,6 +430,11 @@ with col2:
         }}
         </style>
         """, unsafe_allow_html=True)
+        
+        if st.button("", key="toggle_search_off"):
+            st.session_state.search = False
+            st.rerun()
+            
         st.text_input("", placeholder="Search here...", key="search_input", on_change=submit_search, label_visibility="collapsed")
 
 
@@ -474,7 +519,7 @@ else:
         sunset = datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M')
          
         st.markdown(f"""
-        <div style="background: #468FAF; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: center;">
+        <div style="background: #61A5C2; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; height: 230px; display: flex; flex-direction: column; justify-content: center;">
             <div>
                 <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #111; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="20"> Sunrise:</div>
                 <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #111;">{sunrise}</div>
