@@ -113,21 +113,25 @@ body {
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
-def get_base64_image(image_path):
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def get_base64_image(*paths):
+    image_path = os.path.join(BASE_DIR, *paths)
+
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
 
-search_icon = get_base64_image(r"Data\search.png")
-gps_icon = get_base64_image(r"Data\gps.png")
-wind_icon = get_base64_image(r"Data\wind.png")
-sunrise_icon = get_base64_image(r"Data\sunrise.png")
-sunset_icon = get_base64_image(r"Data\sunset.png")
-bar_graph_icon = get_base64_image(r"Data\bar-graph.png")
-calendar_icon = get_base64_image(r"Data\calendar.png")
-clouds_icon = get_base64_image(r"Data\clouds.png")
-earth_icon = get_base64_image(r"Data\earth.png")
-temperature_icon_new = get_base64_image(r"Data\temperature.png")
-cloud_icon_new = get_base64_image(r"Data\Cloud.png")
+search_icon = get_base64_image("Data", "search.png")
+gps_icon = get_base64_image("Data", "gps.png")
+wind_icon = get_base64_image("Data", "wind.png")
+sunrise_icon = get_base64_image("Data", "sunrise.png")
+sunset_icon = get_base64_image("Data","sunset.png")
+bar_graph_icon = get_base64_image("Data","bar-graph.png")
+calendar_icon = get_base64_image("Data","calendar.png")
+clouds_icon = get_base64_image("Data","clouds.png")
+earth_icon = get_base64_image("Data","earth.png")
+temperature_icon_new = get_base64_image("Data","temperature.png")
+cloud_icon_new = get_base64_image("Data","Cloud.png")
 
 def get_condition_image_base64(icon_code):
     mapping = {
@@ -152,7 +156,7 @@ def get_condition_image_base64(icon_code):
     }
     filename = mapping.get(icon_code, 'sunny.png')
     try:
-        return get_base64_image(rf"Data\condition\{filename}")
+        return get_base64_image("Data","condition",filename)
     except:
         return ""
 
