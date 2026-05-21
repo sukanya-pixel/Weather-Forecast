@@ -7,7 +7,6 @@ import os
 import io
 import time
 from dotenv import load_dotenv
-import matplotlib.ticker as ticker
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(layout="wide")
@@ -61,49 +60,6 @@ body {
 .block-container {
     padding-top: 0rem !important;
     margin-top: -35px !important;
-}
-/* HEADER */
-.header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:22px;
-    font-weight:600;
-    margin-bottom:10px;
-}
-
-/* INFO BAR */
-.info-box {
-    background:#e8f0ff;
-    padding:12px;
-    border-radius:10px;
-    margin-bottom:10px;
-}
-
-/* CARD STYLE */
-.card {
-    background:white;
-    padding:20px;
-    border-radius:25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* SMALL CARD */
-.small-card {
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    text-align:center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-/* ALERT */
-.alert {
-    background:#fff4e5;
-    padding:15px;
-    border-radius:10px;
-    color:#a85b00;
-    font-weight:500;
 }
 
 /* --- WEATHER MAIN CARD --- */
@@ -247,36 +203,89 @@ body {
 }
 .sun-row {
     display: flex;
-    flex-direction: column;
-}
-.sun-title {
-    font-size: 18px;
-    margin-bottom: 4px;
-    font-weight: 500;
-    color: #014F86;
-    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 15px;
 }
-.sun-title img {
-    width: 30px;
+.sun-icon {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+.sun-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sun-label {
+    font-size: 16px;
+    color: #014F86;
+    font-weight: 500;
+    line-height: 1.2;
 }
 .sun-time {
     font-size: 26px;
     font-weight: bold;
-    padding-left: 38px;
     color: #012A4A;
+    line-height: 1.1;
 }
 .sun-divider {
     margin: 10px 0;
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid rgba(1, 79, 134, 0.15);
+}
+
+/* --- SECTION TITLE --- */
+.section-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    color: white !important;
+    margin-bottom: 12px !important;
+    margin-top: 15px !important;
+    padding-bottom: 10px !important;
+}
+.section-title img {
+    width: 28px !important;
+    height: 28px !important;
+    object-fit: contain !important;
+}
+
+/* --- HEADER MARKER --- */
+.header-marker {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+}
+.header-marker img {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain !important;
+}
+.header-marker span {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* --- DETAILS ITEM IMAGE --- */
+.details-item img {
+    width: 24px !important;
+    height: 24px !important;
+    object-fit: contain !important;
 }
 
 /* --- TREND CARD --- */
 .trend-card {
     background: #89C2D9;
-    margin-top: 15px;
+    margin-top: 0px;
     padding: 20px;
     border-radius: 25px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -288,18 +297,27 @@ body {
 }
 .trend-chart-img {
     width: 100%;
-    height: 220px;
+    height: 230px;
+}
+
+/* --- FORECAST CONTAINER --- */
+.forecast-container {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    margin-top: 0px;
+    width: 100%;
 }
 
 /* --- 7-DAY FORECAST CARD --- */
 .forecast-card {
     flex: 1;
-    height: 130px;
+    height: 135px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: #89c2d9;
-    padding: 8px 5px;
+    padding: 15px 5px 8px 5px;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -385,7 +403,7 @@ body {
     /* 2. Layout columns stack */
     div[data-testid="stHorizontalBlock"] {
         flex-direction: column !important;
-        gap: 15px !important;
+        gap: 0px !important;
     }
     
     /* EXCEPT header bar which must remain a row */
@@ -414,12 +432,13 @@ body {
         padding: 15px 20px !important;
         height: auto !important;
         gap: 15px !important;
+        margin-bottom: 40px !important;
     }
     .weather-main-top {
         align-items: center !important;
     }
     .weather-temp {
-        font-size: 40px !important;
+        font-size: clamp(34px, 9vw, 44px) !important;
     }
     .weather-icon {
         width: 90px !important;
@@ -432,10 +451,10 @@ body {
         padding: 4px 2px !important;
     }
     .metric-label {
-        font-size: 11px !important;
+        font-size: clamp(10px, 2.8vw, 13px) !important;
     }
     .metric-value {
-        font-size: 12px !important;
+        font-size: clamp(11px, 3vw, 14px) !important;
     }
     
     /* 4. Wind Card adjustments */
@@ -443,9 +462,10 @@ body {
         padding: 15px 20px !important;
         height: auto !important;
         gap: 5px !important;
+        margin-bottom: 40px !important;
     }
     .wind-speed {
-        font-size: 28px !important;
+        font-size: clamp(24px, 7vw, 30px) !important;
     }
     .wind-label {
         margin-top: 10px !important;
@@ -453,22 +473,33 @@ body {
     
     /* 5. Sun Card adjustments */
     .sun-card {
-        padding: 15px 20px !important;
+        padding: 15px 25px !important;
         height: auto !important;
+        gap: 8px !important;
+        margin-bottom: 10px !important;
+    }
+    .sun-row {
         gap: 10px !important;
     }
+    .sun-icon {
+        width: 36px !important;
+        height: 36px !important;
+    }
+    .sun-label {
+        font-size: clamp(12px, 3.2vw, 14px) !important;
+    }
     .sun-time {
-        font-size: 22px !important;
-        padding-left: 38px !important;
+        font-size: clamp(20px, 5.5vw, 24px) !important;
     }
     .sun-divider {
-        margin: 5px 0 !important;
+        margin: 6px 0 !important;
     }
     
     /* 6. Trend Card adjustments */
     .trend-card {
         padding: 15px !important;
-        margin-top: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 40px !important;
     }
     .trend-chart-img {
         height: auto !important;
@@ -483,7 +514,8 @@ body {
         justify-content: flex-start !important;
         gap: 10px !important;
         padding-bottom: 10px !important;
-        margin-top: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 10px !important;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none !important; /* Hide scrollbars */
     }
@@ -494,20 +526,20 @@ body {
         min-width: 85px !important;
         max-width: 95px !important;
         flex: 0 0 auto !important;
-        height: 120px !important;
-        padding: 6px 3px !important;
+        height: 125px !important;
+        padding: 12px 3px 6px 3px !important;
     }
     .forecast-date {
-        font-size: 12px !important;
+        font-size: clamp(11px, 2.8vw, 13px) !important;
     }
     .forecast-icon-container img {
         width: 25px !important;
     }
     .forecast-temp {
-        font-size: 15px !important;
+        font-size: clamp(13px, 3.2vw, 16px) !important;
     }
     .forecast-desc {
-        font-size: 12px !important;
+        font-size: clamp(10px, 2.8vw, 13px) !important;
     }
     
     /* 8. Additional Details adjustments */
@@ -515,7 +547,8 @@ body {
         flex-direction: column !important;
         align-items: stretch !important;
         padding: 15px !important;
-        margin-top: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 10px !important;
     }
     .details-list {
         flex-direction: column !important;
@@ -529,8 +562,9 @@ body {
     .details-item {
         width: 100% !important;
         display: flex !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         align-items: center !important;
+        gap: 12px !important;
         border-bottom: 1px solid rgba(1, 42, 74, 0.15);
         padding-bottom: 8px;
     }
@@ -538,8 +572,12 @@ body {
         border-bottom: none !important;
         padding-bottom: 0 !important;
     }
+    .details-item img {
+        width: 24px !important;
+        height: 24px !important;
+    }
     .details-text {
-        font-size: 15px !important;
+        font-size: clamp(10px, 4.2vw, 18px) !important;
     }
     .warm-alert-box {
         width: 100% !important;
@@ -551,19 +589,55 @@ body {
     
     /* 9. Header Search Bar Adjustments on Mobile */
     div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) {
-        width: 160px !important; /* Slightly smaller width on mobile to avoid layout clipping */
+        position: relative !important;
+        right: auto !important;
+        top: auto !important;
+        transform: translateY(4px) !important;
+        width: 160px !important;
+        margin-top: 0px !important;
     }
     
     /* 10. Scale title size on mobile */
     .app-title {
-        margin-top: 5px !important;
-        margin-bottom: 5px !important;
+        margin-top: -35px !important;
+        margin-bottom: 0px !important;
     }
     .app-title div {
-        font-size: 38px !important;
+        font-size: clamp(50px, 7vw, 42px) !important;
     }
     .app-title img {
         width: 35px !important;
+    }
+    
+    /* 11. Section Title Mobile Adjustments */
+    .section-title {
+        font-size: clamp(18px, 4.5vw, 18px) !important;
+        margin-bottom: 8px !important;
+        margin-top: 10px !important;
+        padding-bottom: 12px !important;
+    }
+    .section-title img {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    /* 12. Header Marker / City Alignment Adjustments */
+    .header-marker {
+        font-size: clamp(20px, 4.5vw, 20px) !important;
+    }
+    .header-marker img {
+        width: 26px !important;
+        height: 26px !important;
+    }
+}
+
+/* --- PORTRAIT ONLY STYLES --- */
+@media (orientation: portrait) {
+    .sun-label {
+        font-size: clamp(15px, 4.2vw, 18px) !important;
+    }
+    .sun-time {
+        font-size: clamp(28px, 7.5vw, 34px) !important;
     }
 }
 
@@ -671,10 +745,11 @@ div[data-testid="stHorizontalBlock"]:has(.header-marker) {
     background: transparent !important;
     box-shadow: none !important;
     padding: 0 !important;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 0px !important;
+    margin-bottom: 15px;
     align-items: center !important;
     width: 100% !important;
+    position: relative !important;
 }
 
 /* REMOVE COLUMN PADDING (important) */
@@ -722,17 +797,7 @@ div[data-testid="stTextInput"] input:-webkit-autofill:active {
     box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
 }
 
-/* HEADER ROW CONTAINER (NO CARD) */
-div[data-testid="stHorizontalBlock"]:has(.header-marker) {
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin-top: 0px !important;
-    margin-bottom: 15px;
-    align-items: center !important;
-    width: 100% !important;
-    position: relative !important;
-}
+
 
 /* APP TITLE CONTAINER CSS */
 div[data-testid="stElementContainer"]:has(.app-title) {
@@ -782,20 +847,9 @@ else:
 
 with col1:
     st.markdown(f"""
-    <div class="header-marker" style="
-        display:flex;
-        align-items:center;
-        gap:8px;
-        font-size:22px;
-        font-weight:600;
-        color:white;
-        margin:0;
-        padding:0;
-        line-height:1;
-        white-space: nowrap;
-    ">
-        <img src="data:image/png;base64,{gps_icon}" width="35" style="margin:0; padding:0; display:block;">
-        <span style="margin:0; padding:0; line-height:1; display:flex; align-items:center; height:26px;">{st.session_state.city.title()}</span>
+    <div class="header-marker">
+        <img src="data:image/png;base64,{gps_icon}">
+        <span>{st.session_state.city.title()}</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -855,6 +909,16 @@ with col2:
             transform: translateY(-50%) !important;
             width: 280px !important;
             z-index: 100;
+        }}
+        @media (max-width: 768px) {{
+            div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) {{
+                position: relative !important;
+                right: auto !important;
+                top: auto !important;
+                transform: translateY(4px) !important;
+                width: 160px !important;
+                margin-top: 0px !important;
+            }}
         }}
         /* Ensure the inner Streamlit wrappers stretch fully and have no padding */
         div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) div {{
@@ -941,7 +1005,7 @@ setTimeout(() => {
 city = st.session_state.city
 
 # ---------------- FETCH ----------------
-import time
+
 
 cache_valid = False
 if 'weather_cache' in st.session_state and st.session_state.get('weather_cache_city') == city:
@@ -1062,24 +1126,28 @@ with col3:
     st.markdown(f"""
     <div class="dynamic-card sun-card">
         <div class="sun-row">
-            <div class="sun-title"><img src="data:image/png;base64,{sunrise_icon}"> Sunrise:</div>
-            <div class="sun-time">{sunrise}</div>
+            <img class="sun-icon" src="data:image/png;base64,{sunrise_icon}">
+            <div class="sun-text-container">
+                <div class="sun-label">Sunrise</div>
+                <div class="sun-time">{sunrise}</div>
+            </div>
         </div>
         <hr class="sun-divider">
         <div class="sun-row">
-            <div class="sun-title"><img src="data:image/png;base64,{sunset_icon}"> Sunset:</div>
-            <div class="sun-time">{sunset}</div>
+            <img class="sun-icon" src="data:image/png;base64,{sunset_icon}">
+            <div class="sun-text-container">
+                <div class="sun-label">Sunset</div>
+                <div class="sun-time">{sunset}</div>
+            </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 # ---------------- GRAPH & FORECAST ROW ----------------
-st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
-
 col_left, col_right = st.columns([1, 1.6], gap="large")
 
 with col_left:
-    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: 10px;'><img src='data:image/png;base64,{bar_graph_icon}' width='30' height='30'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'><img src='data:image/png;base64,{bar_graph_icon}'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
     
     tz_offset = datetime.timedelta(seconds=data['timezone'])
     
@@ -1143,9 +1211,9 @@ with col_left:
     """, unsafe_allow_html=True)
 
 with col_right:
-    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: 10px;'><img src='data:image/png;base64,{calendar_icon}' width='30' height='30'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'><img src='data:image/png;base64,{calendar_icon}'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
     
-    html_boxes = "<div class='forecast-container' style='display:flex; gap:8px; justify-content:space-between;'>"
+    html_boxes = "<div class='forecast-container'>"
     num_days_available = len(forecast['list']) // 8
     for i in range(7):
         if i < num_days_available:
@@ -1175,8 +1243,7 @@ with col_right:
     st.markdown(html_boxes, unsafe_allow_html=True)
 
     # ---------------- EXTRA ----------------
-    st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
-    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: 10px;'><img src='data:image/png;base64,{earth_icon}' width='30' height='30'><span>Additional Details</span></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'><img src='data:image/png;base64,{earth_icon}'><span>Additional Details</span></div>", unsafe_allow_html=True)
     
     warm_alert = ""
     if data['main']['temp'] > 30:
