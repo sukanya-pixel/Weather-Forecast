@@ -695,12 +695,38 @@ def get_condition_image_base64(icon_code):
     except:
         return ""
 
-def get_weather(city):
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+def geocode_city(city):
+    headers = {"User-Agent": "WeatherAppEvaluation/1.0"}
+    # 1. Try Nominatim Geocoding (highly detailed global OSM database)
+    try:
+        url = f"https://nominatim.openstreetmap.org/search?q={city}&format=json&limit=1"
+        res = requests.get(url, headers=headers, timeout=5).json()
+        if res:
+            lat = float(res[0]['lat'])
+            lon = float(res[0]['lon'])
+            display_name = res[0]['display_name']
+            short_name = res[0].get('name') or display_name.split(',')[0]
+            return lat, lon, short_name
+    except:
+        pass
+        
+    # 2. Fallback to OpenWeatherMap Geocoding API
+    try:
+        url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={API_KEY}"
+        res = requests.get(url, timeout=5).json()
+        if res:
+            return float(res[0]['lat']), float(res[0]['lon']), res[0]['name']
+    except:
+        pass
+        
+    return None, None, None
+
+def get_weather_by_coords(lat, lon):
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric"
     return requests.get(url).json()
 
-def get_forecast(city):
-    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
+def get_forecast_by_coords(lat, lon):
+    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API_KEY}&units=metric"
     return requests.get(url).json()
 
 def get_aqi(lat, lon):
@@ -1015,23 +1041,28 @@ if 'weather_cache' in st.session_state and st.session_state.get('weather_cache_c
 
 if not cache_valid:
     try:
-        data = get_weather(city)
-        if str(data.get("cod")) != "200":
-            msg = data.get("message", "City not found").capitalize()
-            st.error(f"🔍 {msg}: '{city.title()}' not found. Please try another city.")
+        # Geocode the city first (resolves Kendujhar, Keonjhar, and any globally known city name)
+        lat, lon, resolved_name = geocode_city(city)
+        if lat is None or lon is None:
+            st.error(f"🔍 City not found: '{city.title()}'. Please try another city.")
             # Revert to last valid city so the user is not stuck on an invalid city
             st.session_state.city = st.session_state.last_valid_city
             st.stop()
+            
+        data = get_weather_by_coords(lat, lon)
+        if str(data.get("cod")) != "200":
+            msg = data.get("message", "City not found").capitalize()
+            st.error(f"🔍 {msg}: '{city.title()}' not found. Please try another city.")
+            st.session_state.city = st.session_state.last_valid_city
+            st.stop()
 
-        forecast = get_forecast(city)
+        forecast = get_forecast_by_coords(lat, lon)
         if str(forecast.get("cod")) != "200":
             msg = forecast.get("message", "Error fetching forecast data").capitalize()
             st.error(f"❌ Forecast Error: {msg}")
             st.session_state.city = st.session_state.last_valid_city
             st.stop()
 
-        lat = data['coord']['lat']
-        lon = data['coord']['lon']
         aqi_val = get_aqi(lat, lon)
         
         st.session_state.weather_cache = {
@@ -1039,9 +1070,10 @@ if not cache_valid:
             'forecast': forecast,
             'aqi_val': aqi_val
         }
-        st.session_state.weather_cache_city = city
+        st.session_state.weather_cache_city = resolved_name
         st.session_state.weather_cache_time = time.time()
-        st.session_state.last_valid_city = city  # Update last valid city on successful fetch
+        st.session_state.last_valid_city = resolved_name  # Update last valid city on successful fetch
+        st.session_state.city = resolved_name  # Standardize current city to resolved name
     except requests.exceptions.RequestException as e:
         st.error("🔌 Network Connection Error: Unable to connect to the weather service. Please check your internet connection.")
         st.stop()
