@@ -106,6 +106,467 @@ body {
     font-weight:500;
 }
 
+/* --- WEATHER MAIN CARD --- */
+.weather-main-card {
+    background: #89C2D9;
+    padding: 25px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.weather-main-top {
+    display: flex;
+    justify-content: space-between;
+}
+.weather-temp {
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 1.1;
+    color: #012A4A;
+}
+.weather-temp-unit {
+    font-size: 20px;
+}
+.weather-highlow {
+    font-size: 16px;
+    margin-top: 1px;
+    color: #012A4A;
+    font-weight: 600;
+}
+.weather-desc {
+    font-size: 18px;
+    margin-top: 1px;
+    color: #014F86;
+}
+.weather-icon {
+    width: 120px;
+    margin-top: -5px;
+}
+.weather-metrics-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.weather-metric-box {
+    flex: 1;
+    background: #014F86;
+    border-radius: 8px;
+    padding: 6px 4px;
+    text-align: center;
+    height: 62px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.metric-label {
+    font-size: 14px;
+    color: #A9D6E5;
+    white-space: nowrap;
+}
+.metric-value {
+    font-size: 15px;
+    color: white;
+    font-weight: 800;
+}
+
+/* --- WIND CARD --- */
+.wind-card {
+    background: #89C2D9;
+    padding: 25px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.wind-card .card-title {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #014F86;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.wind-card .card-title img {
+    width: 30px;
+}
+.wind-speed {
+    font-size: 34px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #012A4A;
+    line-height: 1;
+}
+.wind-unit {
+    font-size: 18px;
+    font-weight: 500;
+}
+.wind-label {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 4px;
+    color: #014F86;
+}
+.wind-bar-container {
+    width: 100%;
+    margin-top: 5px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    height: 10px;
+    margin-bottom: 6px;
+}
+.wind-bar-fill {
+    background-color: #01497C;
+    height: 10px;
+    border-radius: 4px;
+}
+.wind-pct {
+    font-size: 16px;
+    margin-top: 5px;
+    font-weight: 600;
+    color: #012A4A;
+}
+
+/* --- SUN CARD --- */
+.sun-card {
+    background: #89C2D9;
+    padding: 25px 40px;
+    border-radius: 16px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.sun-row {
+    display: flex;
+    flex-direction: column;
+}
+.sun-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: #014F86;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.sun-title img {
+    width: 30px;
+}
+.sun-time {
+    font-size: 26px;
+    font-weight: bold;
+    padding-left: 38px;
+    color: #012A4A;
+}
+.sun-divider {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* --- TREND CARD --- */
+.trend-card {
+    background: #89C2D9;
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+.trend-chart-img {
+    width: 100%;
+    height: 220px;
+}
+
+/* --- 7-DAY FORECAST CARD --- */
+.forecast-card {
+    flex: 1;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #89c2d9;
+    padding: 8px 5px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+}
+.forecast-date {
+    font-size: 14px;
+    color: #01497C;
+    font-weight: 600;
+}
+.forecast-icon-container img {
+    width: 30px;
+}
+.forecast-temp {
+    font-weight: bold;
+    color: #012A4A;
+    font-size: 18px;
+}
+.forecast-desc {
+    font-size: 14px;
+    color: #014F86;
+    font-weight: 500;
+}
+
+/* --- ADDITIONAL DETAILS CARD --- */
+.additional-details-card {
+    background: #89C2D9;
+    border-radius: 15px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+.details-list {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.details-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.details-text {
+    font-size: 16px;
+    color: #333;
+    white-space: nowrap;
+}
+.details-divider {
+    border-left: 1px solid #eef2f6;
+    height: 30px;
+}
+
+/* --- MOBILE RESPONSIVE MEDIA QUERY --- */
+@media (max-width: 768px) {
+    /* 1. Global scroll and height behavior */
+    html, body {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+    }
+    
+    .stApp {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+    }
+
+    [data-testid="stAppViewContainer"], [data-testid="stMain"], .block-container {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+    }
+    
+    .block-container {
+        margin-top: 0px !important;
+        padding-top: 15px !important;
+        padding-bottom: 30px !important;
+    }
+    
+    /* 2. Layout columns stack */
+    div[data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+    
+    /* EXCEPT header bar which must remain a row */
+    div[data-testid="stHorizontalBlock"]:has(.header-marker) {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+    }
+    
+    /* Columns take full width */
+    div[data-testid="column"], div[data-testid="stColumn"] {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+    
+    /* Header columns do not wrap and stay inline */
+    div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stColumn"] {
+        width: auto !important;
+        min-width: 0 !important;
+    }
+    
+    /* 3. Weather Main Card adjustments */
+    .weather-main-card {
+        padding: 15px 20px !important;
+        height: auto !important;
+        gap: 15px !important;
+    }
+    .weather-main-top {
+        align-items: center !important;
+    }
+    .weather-temp {
+        font-size: 40px !important;
+    }
+    .weather-icon {
+        width: 90px !important;
+    }
+    .weather-metrics-row {
+        gap: 6px !important;
+    }
+    .weather-metric-box {
+        height: 55px !important;
+        padding: 4px 2px !important;
+    }
+    .metric-label {
+        font-size: 11px !important;
+    }
+    .metric-value {
+        font-size: 12px !important;
+    }
+    
+    /* 4. Wind Card adjustments */
+    .wind-card {
+        padding: 15px 20px !important;
+        height: auto !important;
+        gap: 5px !important;
+    }
+    .wind-speed {
+        font-size: 28px !important;
+    }
+    .wind-label {
+        margin-top: 10px !important;
+    }
+    
+    /* 5. Sun Card adjustments */
+    .sun-card {
+        padding: 15px 20px !important;
+        height: auto !important;
+        gap: 10px !important;
+    }
+    .sun-time {
+        font-size: 22px !important;
+        padding-left: 38px !important;
+    }
+    .sun-divider {
+        margin: 5px 0 !important;
+    }
+    
+    /* 6. Trend Card adjustments */
+    .trend-card {
+        padding: 15px !important;
+        margin-top: 10px !important;
+    }
+    .trend-chart-img {
+        height: auto !important;
+        max-height: 200px !important;
+        object-fit: contain !important;
+    }
+    
+    /* 7. Forecast container and cards adjustments (swipeable container!) */
+    .forecast-container {
+        display: flex !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+        padding-bottom: 10px !important;
+        margin-top: 10px !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none !important; /* Hide scrollbars */
+    }
+    .forecast-container::-webkit-scrollbar {
+        display: none !important; /* Hide scrollbar for Safari/Chrome */
+    }
+    .forecast-card {
+        min-width: 85px !important;
+        max-width: 95px !important;
+        flex: 0 0 auto !important;
+        height: 120px !important;
+        padding: 6px 3px !important;
+    }
+    .forecast-date {
+        font-size: 12px !important;
+    }
+    .forecast-icon-container img {
+        width: 25px !important;
+    }
+    .forecast-temp {
+        font-size: 15px !important;
+    }
+    .forecast-desc {
+        font-size: 12px !important;
+    }
+    
+    /* 8. Additional Details adjustments */
+    .additional-details-card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 15px !important;
+        margin-top: 10px !important;
+    }
+    .details-list {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+    .details-divider {
+        display: none !important; /* Hide visual vertical dividers on vertical stack */
+    }
+    .details-item {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-bottom: 1px solid rgba(1, 42, 74, 0.15);
+        padding-bottom: 8px;
+    }
+    .details-item:last-child {
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+    }
+    .details-text {
+        font-size: 15px !important;
+    }
+    .warm-alert-box {
+        width: 100% !important;
+        margin-top: 10px !important;
+    }
+    .warm-alert-hidden {
+        display: none !important;
+    }
+    
+    /* 9. Header Search Bar Adjustments on Mobile */
+    div[data-testid="stHorizontalBlock"]:has(.header-marker) div[data-testid="stElementContainer"]:has(input) {
+        width: 160px !important; /* Slightly smaller width on mobile to avoid layout clipping */
+    }
+    
+    /* 10. Scale title size on mobile */
+    .app-title {
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+    }
+    .app-title div {
+        font-size: 38px !important;
+    }
+    .app-title img {
+        width: 35px !important;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -545,33 +1006,33 @@ with col1:
     humidity = data['main']['humidity']
     precip_prob = int(forecast['list'][0].get('pop', 0) * 100)
     st.markdown(f"""
-    <div class="dynamic-card" style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); height: 230px; display: flex; flex-direction: column; justify-content: space-between;">
-        <div style="display: flex; justify-content: space-between;">
-            <div>
-                <div style="font-size: 50px; font-weight: bold; line-height: 1.1; color: #012A4A;">{temp}°<span style="font-size: 20px;">C</span></div>
-                <div style="font-size: 16px; margin-top: 1px; color: #012A4A; font-weight: 600;"><span style="color: #0d6efd;">▲</span> High: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> Low: {temp_min}°</div>
-                <div style="font-size: 18px; margin-top: 1px; color: #014F86;">{desc}</div>
+    <div class="dynamic-card weather-main-card">
+        <div class="weather-main-top">
+            <div class="weather-main-left">
+                <div class="weather-temp">{temp}°<span class="weather-temp-unit">C</span></div>
+                <div class="weather-highlow"><span style="color: #0d6efd;">▲</span> High: {temp_max}° &nbsp; <span style="color: #0d6efd;">▼</span> Low: {temp_min}°</div>
+                <div class="weather-desc">{desc}</div>
             </div>
-            <div>
-                <img src="data:image/png;base64,{icon_b64}" width="120" style="margin-top: -5px;">
+            <div class="weather-main-right">
+                <img class="weather-icon" src="data:image/png;base64,{icon_b64}">
             </div>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 10px;">
-            <div class="dynamic-card" style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Pressure</div>
-                <div style="font-size: 15px; color: white; font-weight: 800;">{pressure} mb</div>
+        <div class="weather-metrics-row">
+            <div class="dynamic-card weather-metric-box">
+                <div class="metric-label">Pressure</div>
+                <div class="metric-value">{pressure} mb</div>
             </div>
-            <div class="dynamic-card" style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Visibility</div>
-                <div style="font-size: 15px; color: white; font-weight: 800;">{visibility} km</div>
+            <div class="dynamic-card weather-metric-box">
+                <div class="metric-label">Visibility</div>
+                <div class="metric-value">{visibility} km</div>
             </div>
-            <div class="dynamic-card" style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Humidity</div>
-                <div style="font-size: 15px; color: white; font-weight: 800;">{humidity}%</div>
+            <div class="dynamic-card weather-metric-box">
+                <div class="metric-label">Humidity</div>
+                <div class="metric-value">{humidity}%</div>
             </div>
-            <div class="dynamic-card" style="flex: 1; background: #014F86; border-radius: 8px; padding: 6px 4px; text-align: center; height: 62px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 14px; color: #A9D6E5; white-space: nowrap;">Precipitation</div>
-                <div style="font-size: 15px; color: white; font-weight: 800;">{precip_prob}%</div>
+            <div class="dynamic-card weather-metric-box">
+                <div class="metric-label">Precipitation</div>
+                <div class="metric-value">{precip_prob}%</div>
             </div>
         </div>
     </div>
@@ -582,14 +1043,14 @@ with col2:
     speed = data['wind']['speed']
     pct = min(int(speed * 10), 100)
     st.markdown(f"""
-    <div class="dynamic-card" style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); height: 230px; display: flex; flex-direction: column;">
-        <div style="font-weight: 600; font-size: 18px; margin-bottom: 10px; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{wind_icon}" width="30"> Wind Info</div>
-        <div style="font-size: 34px; margin-top: 10px; font-weight: bold; color: #012A4A; line-height: 1;">{speed} <span style="font-size: 18px; font-weight: 500;">m/s</span></div>
-        <div style="font-size: 16px; margin-top: 20px; margin-bottom: 4px; color: #014F86;">Wind Speed</div>
-        <div style="width: 100%; margin-top: 5px; background-color: #e9ecef; border-radius: 4px; height: 10px; margin-bottom: 6px;">
-            <div style="width: {pct}%; background-color: #01497C; height: 10px; border-radius: 4px;"></div>
+    <div class="dynamic-card wind-card">
+        <div class="card-title"><img src="data:image/png;base64,{wind_icon}"> Wind Info</div>
+        <div class="wind-speed">{speed} <span class="wind-unit">m/s</span></div>
+        <div class="wind-label">Wind Speed</div>
+        <div class="wind-bar-container">
+            <div class="wind-bar-fill" style="width: {pct}%;"></div>
         </div>
-        <div style="font-size: 16px; margin-top: 5px; font-weight: 600; color: #012A4A;">{pct}%</div>
+        <div class="wind-pct">{pct}%</div>
     </div>
     """, unsafe_allow_html=True)
  
@@ -599,15 +1060,15 @@ with col3:
     sunset = datetime.datetime.fromtimestamp(data['sys']['sunset']).strftime('%H:%M')
      
     st.markdown(f"""
-    <div class="dynamic-card" style="background: #89C2D9; padding: 25px 40px; border-radius: 16px; height: 230px; display: flex; flex-direction: column; justify-content: center;">
-        <div>
-            <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunrise_icon}" width="30"> Sunrise:</div>
-            <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunrise}</div>
+    <div class="dynamic-card sun-card">
+        <div class="sun-row">
+            <div class="sun-title"><img src="data:image/png;base64,{sunrise_icon}"> Sunrise:</div>
+            <div class="sun-time">{sunrise}</div>
         </div>
-        <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
-        <div>
-            <div style="font-size: 18px; margin-bottom: 4px; font-weight: 500; color: #014F86; display: flex; align-items: center; gap: 8px;"><img src="data:image/png;base64,{sunset_icon}" width="30"> Sunset:</div>
-            <div style="font-size: 26px; font-weight: bold; padding-left: 28px; color: #012A4A;">{sunset}</div>
+        <hr class="sun-divider">
+        <div class="sun-row">
+            <div class="sun-title"><img src="data:image/png;base64,{sunset_icon}"> Sunset:</div>
+            <div class="sun-time">{sunset}</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -615,17 +1076,11 @@ with col3:
 # ---------------- GRAPH & FORECAST ROW ----------------
 st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
 
-t1, t2 = st.columns([1, 1.6], gap="large")
-with t1:
-    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: -20px;'><img src='data:image/png;base64,{bar_graph_icon}' width='30' height='30'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
-with t2:
-    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: -20px;'><img src='data:image/png;base64,{calendar_icon}' width='30' height='30'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
+col_left, col_right = st.columns([1, 1.6], gap="large")
+
+with col_left:
+    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: 10px;'><img src='data:image/png;base64,{bar_graph_icon}' width='30' height='30'><span>Temperature Trend (Next 24 Hours)</span></div>", unsafe_allow_html=True)
     
-st.markdown("<div style='height:5px;'></div>", unsafe_allow_html=True)
-
-r2c1, r2c2 = st.columns([1, 1.6], gap="large")
-
-with r2c1:
     tz_offset = datetime.timedelta(seconds=data['timezone'])
     
     # Collect raw points (timestamp, temp)
@@ -682,13 +1137,15 @@ with r2c1:
     fig.savefig(buf, format="png", bbox_inches='tight', facecolor=fig.get_facecolor())
     img_b64 = base64.b64encode(buf.getvalue()).decode()
     st.markdown(f"""
-    <div class="dynamic-card" style="background: #89C2D9; margin-top: 15px; padding: 20px; border-radius: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box;">
-        <img src="data:image/png;base64,{img_b64}" style="width: 100%; height: 220px;">
+    <div class="dynamic-card trend-card">
+        <img src="data:image/png;base64,{img_b64}" class="trend-chart-img">
     </div>
     """, unsafe_allow_html=True)
-with r2c2:
-    st.markdown("<div style='margin-top:-10px;'></div>", unsafe_allow_html=True)
-    html_boxes = "<div style='display:flex; gap:8px; justify-content:space-between;'>"
+
+with col_right:
+    st.markdown(f"<div style='display:flex; align-items:center; gap:8px; font-weight: 600; font-size: 20px; color: White; margin-bottom: 10px;'><img src='data:image/png;base64,{calendar_icon}' width='30' height='30'><span>7-Day Forecast</span></div>", unsafe_allow_html=True)
+    
+    html_boxes = "<div class='forecast-container' style='display:flex; gap:8px; justify-content:space-between;'>"
     num_days_available = len(forecast['list']) // 8
     for i in range(7):
         if i < num_days_available:
@@ -708,11 +1165,11 @@ with r2c2:
             
         date_str = dt_obj.strftime('%d %b')
         icon_b64 = get_condition_image_base64(icon)
-        html_boxes += f"""<div class="dynamic-card" style="flex:1; height:130px; display:flex; flex-direction:column; justify-content:space-between; background:#89c2d9; padding:8px 5px; border-radius:12px; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); box-sizing:border-box;">
-                        <div style="font-size:14px; color:#01497C; font-weight:600;">{date_str}</div>
-                        <div><img src="data:image/png;base64,{icon_b64}" width="30"></div>
-                        <div style="font-weight:bold; color:#012A4A; font-size:18px;">{temp}°C</div>
-                        <div style="font-size:14px; color:#014F86; font-weight:500;">{desc}</div>
+        html_boxes += f"""<div class="dynamic-card forecast-card">
+                        <div class="forecast-date">{date_str}</div>
+                        <div class="forecast-icon-container"><img src="data:image/png;base64,{icon_b64}"></div>
+                        <div class="forecast-temp">{temp}°C</div>
+                        <div class="forecast-desc">{desc}</div>
                     </div>"""
     html_boxes += "</div>"
     st.markdown(html_boxes, unsafe_allow_html=True)
@@ -723,9 +1180,9 @@ with r2c2:
     
     warm_alert = ""
     if data['main']['temp'] > 30:
-        warm_alert = "<div style='background: #fff9e6; border: 1px solid #ffeeba; border-radius: 12px; padding: 12px 15px; color: #856404; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); width: 250px; box-sizing: border-box; height: 44px;'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='#ff9800' class='bi bi-exclamation-triangle-fill' viewBox='0 0 16 16'><path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2'/></svg><span>Warm Alert: Stay hydrated!</span></div>"
+        warm_alert = "<div class='warm-alert-box' style='background: #fff9e6; border: 1px solid #ffeeba; border-radius: 12px; padding: 12px 15px; color: #856404; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); width: 250px; box-sizing: border-box; height: 44px;'><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='#ff9800' class='bi bi-exclamation-triangle-fill' viewBox='0 0 16 16'><path d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2'/></svg><span>Warm Alert: Stay hydrated!</span></div>"
     else:
-        warm_alert = "<div style='width: 260px; height: 44px; visibility: hidden;'></div>"
+        warm_alert = "<div class='warm-alert-box warm-alert-hidden' style='width: 260px; height: 44px; visibility: hidden;'></div>"
         
     lat = data['coord']['lat']
     lon = data['coord']['lon']
@@ -743,17 +1200,23 @@ with r2c2:
     aqi_display = f"{aqi_val} ({aqi_desc})" if aqi_val is not None else "N/A"
 
     st.markdown(f"""
-    <div class="dynamic-card" style="background: #89C2D9; border-radius: 15px; padding: 10px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
-    <div style="display: flex; gap: 10px; align-items: center;">
-    <div style="display: flex; align-items: center; gap: 6px;">
-    <img src="data:image/png;base64,{temperature_icon_new}" width="25" height="25">
-    <span style="font-size: 16px; color: #333; white-space: nowrap;">Feels Like: <b>{int(data['main']['feels_like'])} °C</b></span></div>
-    <div style="border-left: 1px solid #eef2f6; height: 30px;"></div>
-    <div style="display: flex; align-items: center; gap: 6px;">
-    <img src="data:image/png;base64,{cloud_icon_new}" width="25" height="25">
-    <span style="font-size: 16px; color: #333; white-space: nowrap;">Cloud Cover: <b>{data['clouds']['all']}%</b></span></div>
-    <div style="border-left: 1px solid #eef2f6; height: 30px;">
-    </div><div style="display: flex; align-items: center; gap: 6px;">
-    <img src="data:image/png;base64,{wind_icon}" width="25" height="25">
-    <span style="font-size: 16px; color: #333; white-space: nowrap;">AQI: <b>{aqi_display}</b></span></div></div>{warm_alert}</div>
+    <div class="dynamic-card additional-details-card">
+        <div class="details-list">
+            <div class="details-item">
+                <img src="data:image/png;base64,{temperature_icon_new}" width="25" height="25">
+                <span class="details-text">Feels Like: <b>{int(data['main']['feels_like'])} °C</b></span>
+            </div>
+            <div class="details-divider"></div>
+            <div class="details-item">
+                <img src="data:image/png;base64,{cloud_icon_new}" width="25" height="25">
+                <span class="details-text">Cloud Cover: <b>{data['clouds']['all']}%</b></span>
+            </div>
+            <div class="details-divider"></div>
+            <div class="details-item">
+                <img src="data:image/png;base64,{wind_icon}" width="25" height="25">
+                <span class="details-text">AQI: <b>{aqi_display}</b></span>
+            </div>
+        </div>
+        {warm_alert}
+    </div>
     """, unsafe_allow_html=True)
